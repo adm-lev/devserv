@@ -48,6 +48,7 @@ atlassian-ide-plugin.xml
 # Python # 
 *.py[cod] 
 *$py.class 
+sequre_data.py
 
 # Distribution / packaging 
 .Python build/ 
