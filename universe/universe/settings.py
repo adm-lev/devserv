@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-# from secure.secure_data import DB_PASS 
+from universe.sequre import Secret_Key, DB_PASS
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2x)e0@#ln$_j+gw7o_@-rod9((67^dx&+)51bslnkl2ym9@g%b'
+SECRET_KEY = Secret_Key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '194.67.111.161']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -82,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'universe',
         'USER': 'webadmin',
-        'PASSWORD': 'Gfctrf-20',
+        'PASSWORD': DB_PASS,
         'HOST': 'localhost',
         'PORT': '',
     }
