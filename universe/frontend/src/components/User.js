@@ -4,15 +4,20 @@ import React from "react";
 const UserItem = ({user}) => {
     return (
         <ul class="user-item">
-            <li>{user.first_name}</li>
-            <li>{user.last_name}</li>
-            <li>{user.user_name}</li>
+            <li>{user.firstName}</li>
+            <li>{user.lastName}</li>
+            <li>{user.userName}</li>
             <li>{user.email}</li>
         </ul>
     )
 };
 
 const UserList = ({users}) => {
+    const clear_users = []
+    for (const i in users.results){
+        clear_users.push(users.results[i])
+    }
+    
     return (
         <div class="user-div">
             <ul class="user-list">
@@ -20,8 +25,9 @@ const UserList = ({users}) => {
                 <li>Last name</li>
                 <li>Username</li>
                 <li>Email</li>               
-            </ul>
-            {users.map((user_) => <UserItem user={user_}/>)}
+            </ul>            
+            {clear_users.map((user_) => <UserItem user={user_}/>)}
+            
         </div>    
     )
     

@@ -1,5 +1,5 @@
 from dataclasses import fields
-from rest_framework.serializers import HyperlinkedModelSerializer
+from rest_framework.serializers import HyperlinkedModelSerializer, ModelSerializer
 from .models import User, Project, Todo
 import djangorestframework_camel_case
 

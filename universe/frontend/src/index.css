@@ -8,6 +8,10 @@ body {
   background-color: gainsboro;
 }
 
+.hidden {
+  display: none;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -17,35 +21,33 @@ ul {
   list-style: none;
 }
 
-.user-div {
+.user-div, .project-div, .note-div {
   display: flex;
+  background-color: gray;
 }
 
-.user-list {
+.user-list, .project-list, .note-list {
   font-weight: 600;
 }
 
 .menu-item {
   border: 1px solid;
-  border-color: darkslategrey;
-}
-
-.menu-item a {
-  text-decoration: none;
+  border-color: darkslategrey;  
   padding: 0 15px;
 }
 
-.menu-item a:hover {
+.menu-item:hover {
   background-color: rgba(42, 214, 197, 0.735);
 }
 
 .menu {
   background-color: antiquewhite;
-  padding: 10px 0;
+  padding: 0;
 }
 
 .menu ul {
   display:flex;
+  margin: 0;
 }
 
 .footer {
@@ -53,10 +55,6 @@ ul {
   position: fixed;
   bottom: 0;
   width: 100%;
-}
-
-.user-div {
-  background-color: gray;
 }
 
 .footer p {

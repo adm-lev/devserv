@@ -40,8 +40,8 @@ class Todo(models.Model):
     is_active = models.BooleanField(default=True, help_text='Is active')
     
     class Meta:
-        verbose_name = 'Todo'
-        verbose_name_plural = 'Todos'
+        verbose_name = 'Note'
+        verbose_name_plural = 'Notes'
     # def __str__(self) -> str:
     #     return f'{self.user}'
 
