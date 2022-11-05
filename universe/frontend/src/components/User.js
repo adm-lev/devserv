@@ -1,13 +1,17 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 
 const UserItem = ({user}) => {
     return (
-        <ul class="user-item">
-            <li>{user.firstName}</li>
+        <ul className="user-item">
+            <li>
+            <Link to={`/users/${user.id}`}>{user.firstName}</Link>
+            </li>
             <li>{user.lastName}</li>
             <li>{user.userName}</li>
             <li>{user.email}</li>
+            {/* <li>{user.id}</li> */}
         </ul>
     )
 };
@@ -19,8 +23,8 @@ const UserList = ({users}) => {
     }
     
     return (
-        <div class="user-div">
-            <ul class="user-list">
+        <div className="user-div">
+            <ul className="user-list">
                 <li>First name</li>
                 <li>Last name</li>
                 <li>Username</li>

@@ -2,9 +2,9 @@ import React from "react";
 
 const MenuBlock = (({menu}) => {
     return (
-        <div class="menu container">
+        <div className="menu container">
             <ul>
-            {menu.map((tile_) => <li class="menu-item">{tile_}</li>)}
+            {menu.map((tile_) => <li className="menu-item">{tile_}</li>)}
             </ul>
         </div>
     )

@@ -30,9 +30,9 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGINS = [
-    # 'http://localhost:3000/',
-    # 'http://127.0.0.1:3000/',
-    # 'http://185.208.207.158',
+    'http://localhost:3000/',
+    'http://127.0.0.1:3000/',
+    'http://185.208.207.158',
 ]
 # Application definition
 

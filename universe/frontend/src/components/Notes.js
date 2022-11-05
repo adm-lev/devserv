@@ -3,7 +3,7 @@ import React from "react";
 
 const NoteItem = ({note}) => {
     return (
-        <ul class="note-item">
+        <ul className="note-item">
             <li>{note.project}</li>
             <li>{note.text}</li>
             <li>{note.dateCreated}</li>
@@ -20,8 +20,8 @@ const NoteList = ({notes}) => {
         clear_notes.push(notes.results[i])
     }
     return (
-        <div class="note-div">
-            <ul class="note-list">
+        <div className="note-div">
+            <ul className="note-list">
                 <li>Project</li>
                 <li>Text</li>
                 <li>Date created</li>
