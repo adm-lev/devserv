@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from universe.sequre import Secret_Key, DB_PASS
 import os
+import datetime
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +34,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000/',
     'http://127.0.0.1:3000/',
     'http://185.208.207.158',
+    
 ]
 # Application definition
 
@@ -47,6 +49,8 @@ INSTALLED_APPS = [
     'todos',
     'django_filters',
     'corsheaders',
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [
@@ -161,8 +165,31 @@ REST_FRAMEWORK = {
     ],
 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 100
+    'PAGE_SIZE': 100,
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
 }
+
+# JWT_AUTH = {
+ 
+# 'JWT_VERIFY': True,
+ 
+# 'JWT_VERIFY_EXPIRATION': True,
+ 
+# 'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3000),
+ 
+# 'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+ 
+# }
+
+
 
 # JSON_CAMEL_CASE = {
 #     'RENDERER_CLASS': 'rest_framework.renderers.UnicodeJSONRenderer'

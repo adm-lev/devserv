@@ -14,11 +14,11 @@ const ProjectItem = ({project}) => {
 };
 
 const ProjectUser = ({projects}) => {
-    const clear_projects = []
-    const {userId} = useParams()    
-    for (const i in projects.results){
-        clear_projects.push(projects.results[i])
-    }
+    const clear_projects = projects.results;
+    const {userId} = useParams();    
+    // for (const i in projects.results){
+    //     clear_projects.push(projects.results[i])
+    // }
     const filter_projects = clear_projects.filter((project) => project.users.includes(parseInt(userId)))
     return (
         <div className="project-div">
