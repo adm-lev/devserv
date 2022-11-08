@@ -1,3 +1,4 @@
+'use strict';
 // import logo from './logo.svg';
 import './App.css';
 import React from 'react';
@@ -12,6 +13,8 @@ import {BrowserRouter, Route, Routes, Link, Navigate} from 'react-router-dom'
 import NotFound404 from './components/NotFound404';
 import ProjectUser from './components/Userprojects';
 import ProjectDetail from './components/ProjectDetail';
+import LoginForm from './components/Auth';
+import Cookies from 'universal-cookie';
 
 class App extends React.Component {
   constructor (props){
@@ -21,11 +24,80 @@ class App extends React.Component {
       'footer': [],
       'projects': [],
       'notes': [],
-    }
+      'accessToken': '',
+      'refreshToken': '',
+      'token': '',
+    };
   }
 
-  componentDidMount() {
-   
+  logout () {
+    this.setToken('');
+    this.setState({
+      'users': [],
+      'projects': [],
+      'notes': [],
+    })
+  }
+
+  isAuth () {
+    // return !!this.state.accessToken;
+    // console.log(this.state.token);
+    return !!this.state.token;
+    
+  }
+
+  setToken (token) {  
+    
+    const cookies = new Cookies();
+    // cookies.set('accessToken', token['access']);
+    // cookies.set('refreshToken', token['refresh']);
+    cookies.set('token', token);    
+    this.setState({
+      // 'accessToken': token['access'],
+      // 'refreshToken': token['refresh'],
+      'token': token
+    }, () => this.loadData());
+  }
+
+  getTokenStorage () {
+    const cookies = new Cookies();
+    // const token = cookies.get('accessToken');
+    const token = cookies.get('token');
+    // console.log(token);
+    this.setState({
+      // 'accessToken': token['access'],
+      // 'refreshToken': token['refresh'],
+      'token': token
+    }, () => this.loadData());
+  }
+
+  getToken (username,password) {
+    const baseUrl = 'http://localhost:8000/api';
+    const data = {username: username, password: password};
+    // axios.post('http://127.0.0.1/api/token/', data).then(response => {
+    axios.post(baseUrl+'-token-auth/', data).then(response => {    
+      // this.setToken(response.data);
+      this.setToken(response.data['token']);
+      
+     
+    }).catch(error => alert('Wrong username or password'))
+  }
+
+  getHeaders () {
+    let headers = {      
+      'Content-Type': 'application/json',      
+    };
+    if (this.isAuth()) {
+      // headers['Authorization'] = 'Bearer ' + this.state.accessToken;
+      headers['Authorization'] = 'Token '+this.state.token;
+    }
+    console.log(headers);
+    return headers;
+  }
+
+  loadData () {
+    const baseUrl = 'http://localhost:8000/api';
+    const headers = this.getHeaders();
     const footer = [
       'This project was built with engines of Django 3.2.8 on backend, React JS 18.2.0 on frontend and PostgreSQL as a DB. OS Ubuntu server 22.04.',
       'Made by Eugene Lavrenko'
@@ -33,26 +105,31 @@ class App extends React.Component {
 
     this.setState({      
       'footer': footer,
-    })
+    });
 
-    axios.get('http://localhost/api/users/').then(response => {
+    axios.get(baseUrl+'/users/',{headers}).then(response => {
       this.setState({
         'users': response.data,        
       });      
-    }).catch(error => console.log(error))    
+    }).catch(error => console.log(error));    
 
-    axios.get('http://localhost/api/projects/').then(response => {
+    axios.get(baseUrl+'/projects/', {headers}).then(response => {
       this.setState({
         'projects': response.data,        
       });
-    }).catch(error => console.log(error))
+    }).catch(error => console.log(error));
 
-    axios.get('http://localhost/api/todos/').then(response => {
+    axios.get(baseUrl+'/todos/', {headers}).then(response => {
       this.setState({
         'notes': response.data,        
       });
-    }).catch(error => console.log(error))
+    }).catch(error => console.log(error));
   };
+  
+
+  componentDidMount() {   
+    this.getTokenStorage();
+  }
 
   render() {
     return (        
@@ -68,11 +145,16 @@ class App extends React.Component {
             </li>
             <li className="menu-item">
               <Link to="/todos">Notes</Link>
-            </li>          
+            </li>  
+            <li className="menu-item">
+              {this.isAuth() ? <button onClick={() => this.logout()}>Logout</button> : <Link to="/login">Login</Link>}
+            </li>        
           </nav>
         </div>
           <Routes>
             <Route exact path="/" element={<Navigate to="/users"/>}/>
+            <Route exact path="/login" element={<LoginForm getToken={(username, password) => 
+              this.getToken(username, password)}/>}/>
             <Route exact path="/users">
               <Route index element={<UserList  users={this.state.users}/>}/>
               <Route path=":userId" element={<ProjectUser projects={this.state.projects}/>}/>

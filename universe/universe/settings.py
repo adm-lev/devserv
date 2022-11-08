@@ -31,11 +31,15 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000/',
-    'http://127.0.0.1:3000/',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
     'http://185.208.207.158',
+    '*',
     
 ]
+
+CORS_ORIGIN_WHITELIST = ( 'http://localhost:3000', 'http://185.208.207.158', '*')
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -173,7 +177,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
 

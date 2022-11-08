@@ -2,7 +2,7 @@ import time
 import requests
 from requests.auth import HTTPBasicAuth
 
-DOMAIN = 'http://127.0.0.1'
+DOMAIN = 'http://127.0.0.1:8000'
 
 def timeout():
     time.sleep(2)
@@ -17,32 +17,32 @@ auth = HTTPBasicAuth(username='Admin', password='NewEntry1')
 
 
 # token authorisation
-# data = {'username':'Admin', 'password':'NewEntry1'}
-# token = requests.post('http://127.0.0.1/api-token-auth/', data=data).json().get('token')
-# # token = response
+data = {'username':'Admin', 'password':'NewEntry1'}
+token = requests.post(get_url('/api-token-auth/'), data=data).json().get('token')
+# token = response
 
-# headers = {'Authorization':f'Token {token}'}
-# response = requests.get(get_url('/api/users/'), headers=headers)
+headers = {'Authorization':f'Token {token}'}
+response = requests.get(get_url('/api/todos/'), headers=headers)
 
-# print(response.json())
+print(response.json())
 
 # JWT auth
-data = {'username':'Admin', 'password':'NewEntry1'}
-TOKEN = requests.post('http://127.0.0.1/api/token/', data=data).json()
+# data = {'username':'Admin', 'password':'NewEntry1'}
+# TOKEN = requests.post('http://127.0.0.1:8000/api/token/', data=data).json()
 
 # print(TOKEN)
-access = TOKEN['access']
+# access = TOKEN['access']
 # print(access)
 # print('*' * 40)
-refresh = TOKEN['refresh']
+# refresh = TOKEN['refresh']
 # print(refresh)
 # print('*' * 40)
 
-headers = {'Authorization': f'Bearer {access}'}
-response = requests.get(get_url('/api/users/'), headers=headers)
+# headers = {'Authorization': f'Bearer {access}'}
+# response = requests.get(get_url('/api/users/'), headers=headers)
 # print(response.json())
 
-new_TOKEN = requests.post('http://127.0.0.1/api/token/refresh/', data={'refresh': refresh}).json()
+# new_TOKEN = requests.post('http://127.0.0.1/api/token/refresh/', data={'refresh': refresh}).json()
 
 # print(new_TOKEN)
 

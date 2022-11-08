@@ -8,7 +8,7 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, BasePermission
+from rest_framework.permissions import BasePermission, DjangoModelPermissions, IsAdminUser, IsAuthenticated
 from universe.settings import SECRET_KEY
 
 
@@ -32,7 +32,7 @@ class ProjectCustomViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, mix
     serializer_class = ProjectModelSerialazer
     filterset_class = ProjectFilter
     pagination_class = ProjectLimitOffsetPagination
-    # permission_classes = [StaffOnly]
+    permission_classes = [IsAdminUser]
 
 
 class TodoCustomViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.ListModelMixin,
@@ -41,7 +41,7 @@ class TodoCustomViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins
     serializer_class = TodoModelSerialazer
     filterset_class = TodoFilter
     pagination_class = TodoLimitOffsetPagination
-    # permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def destroy(self, request, pk):
         instance = get_object_or_404(Todo, pk=pk)            
@@ -57,7 +57,7 @@ class UserCustomViewSet(mixins.UpdateModelMixin, mixins.ListModelMixin,
     queryset = User.objects.all()
     serializer_class = UserModelSerialazer
     # renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
-    # permission_classes = [AllowAny]
+    # permission_classes = DjangoModelPermissions
 
 
 # def authenticate_user(request):
