@@ -27,6 +27,7 @@ class App extends React.Component {
       'accessToken': '',
       'refreshToken': '',
       'token': '',
+      'loggedAs': '',
     };
   }
 
@@ -36,21 +37,21 @@ class App extends React.Component {
       'users': [],
       'projects': [],
       'notes': [],
+      'loggedAs': '',
     })
   }
 
   isAuth () {
-    return !!this.state.accessToken;
-    // console.log(this.state.token);
+    return !!this.state.accessToken;    
     // return !!this.state.token;
     
   }
 
-  setToken (token) {  
-    
+  setToken (token) {      
     const cookies = new Cookies();
     cookies.set('accessToken', token['access']);
     cookies.set('refreshToken', token['refresh']);
+    cookies.set('loggedAs', this.state.loggedAs);
     // cookies.set('token', token);    
     this.setState({
       'accessToken': token['access'],
@@ -62,27 +63,27 @@ class App extends React.Component {
   getTokenStorage () {
     const cookies = new Cookies();
     const token = cookies.get('accessToken');
-    // const token = cookies.get('token');
-    // console.log(token);
+    const user = cookies.get('loggedAs');
+    // const token = cookies.get('token');    
     this.setState({
       'accessToken': token['access'],
       'refreshToken': token['refresh'],
+      'loggedAs': user,
       // 'token': token
     }, () => this.loadData());
   }
 
   getToken (username,password) {
     const baseUrl = 'http://localhost:8000/api';
-    const data = {username: username, password: password};
-    console.log('data - '+data);
+    const data = {username: username, password: password};    
     axios.post(baseUrl+'/token/', data).then(response => {
-    // axios.post(baseUrl+'-token-auth/', data).then(response => {    
-      this.setToken(response.data);
-      console.log(response.data);
-      // this.setToken(response.data['token']);
-      
-     
-    }).catch(error => alert('Wrong username or password'))
+    // axios.post(baseUrl+'-token-auth/', data).then(response => { 
+      // this.setToken(response.data['token']);   
+      this.setToken(response.data);   
+      this.setState({
+        'loggedAs': username
+      });        
+    }).catch(error => alert('Wrong username or password'));
   }
 
   getHeaders () {
@@ -92,8 +93,7 @@ class App extends React.Component {
     if (this.isAuth()) {
       headers['Authorization'] = 'Bearer ' + this.state.accessToken;
       // headers['Authorization'] = 'Token '+this.state.token;
-    }
-    console.log(headers);
+    };    
     return headers;
   }
 
@@ -149,7 +149,9 @@ class App extends React.Component {
               <Link to="/todos">Notes</Link>
             </li>  
             <li className="menu-item">
-              {this.isAuth() ? <button onClick={() => this.logout()}>Logout</button> : <Link to="/login">Login</Link>}
+              {this.isAuth() ? <button onClick={() => this.logout()}>
+                              {`Logout as ${this.state.loggedAs}`}
+                              </button> : <Link to="/login">Login</Link>}
             </li>        
           </nav>
         </div>
