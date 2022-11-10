@@ -114,7 +114,7 @@ class App extends React.Component {
         'users': response.data,        
       });      
     }).catch(error => console.log(error));    
-
+    console.log(headers)
     axios.get(baseUrl+'/projects/', {headers}).then(response => {
       this.setState({
         'projects': response.data,        

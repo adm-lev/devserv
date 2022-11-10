@@ -2,12 +2,12 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 import universe.views
-from todos.views import UserCustomViewSet, ProjectCustomViewSet, TodoCustomViewSet
+from todos.views import UserCustomViewSet, ProjectCustomViewSet, TodoCustomViewSet, UserModelViewSet
 from rest_framework.authtoken import views as token_view
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 router = DefaultRouter()
-router.register('users', UserCustomViewSet)
+router.register('users', UserModelViewSet)
 router.register('projects', ProjectCustomViewSet)
 router.register('todos', TodoCustomViewSet)
 

@@ -15,6 +15,9 @@ from universe.sequre import Secret_Key, DB_PASS
 import os
 import datetime
 
+
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,17 +31,47 @@ SECRET_KEY = Secret_Key
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
+LOG_FILE = BASE_DIR / 'var' / 'log' / 'main_log.log'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    # 'formatters': {
+    #     'console': {
+    #         'format': '[%(asctime)s] %(levelname)s %(name)s (%(lineno)d) %(message)s'
+    #     },
+    # },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': LOG_FILE,
+        },
+    },
+    # 'root': {
+    #     'handlers': ['default_handler'],
+    #     'level': 'WARNING',
+    # },
+    'loggers': {
+        'universe': {
+            'level': 'DEBUG',
+            'handlers': ['file'],            
+        },
+    },
+}
+
 ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
     'http://185.208.207.158',
-    '*',
+    
     
 ]
 
-CORS_ORIGIN_WHITELIST = ( 'http://localhost:3000', 'http://185.208.207.158', '*')
+CORS_ORIGIN_WHITELIST = ( 'http://localhost:3000', 'http://185.208.207.158')
 
 # Application definition
 
@@ -172,7 +205,8 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100,
 
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        # 'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
