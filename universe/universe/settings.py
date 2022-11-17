@@ -88,6 +88,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework.authtoken',
     'rest_framework_simplejwt.token_blacklist',
+    'graphene_django',
 ]
 
 MIDDLEWARE = [
@@ -205,8 +206,8 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100,
 
     'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.AllowAny',
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.AllowAny',
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
@@ -232,3 +233,7 @@ REST_FRAMEWORK = {
 # JSON_CAMEL_CASE = {
 #     'RENDERER_CLASS': 'rest_framework.renderers.UnicodeJSONRenderer'
 # }
+
+GRAPHENE = {
+    'SCHEMA': 'universe.schema.schema'
+}

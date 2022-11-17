@@ -5,6 +5,7 @@ import universe.views
 from todos.views import UserCustomViewSet, ProjectCustomViewSet, TodoCustomViewSet, UserModelViewSet
 from rest_framework.authtoken import views as token_view
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from graphene_django.views import GraphQLView
 
 router = DefaultRouter()
 router.register('users', UserModelViewSet)
@@ -20,5 +21,6 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api-token-auth/', token_view.obtain_auth_token),
     path('api/token/', TokenObtainPairView.as_view(), name ='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name ='token_refresh'),    
+    path('api/token/refresh/', TokenRefreshView.as_view(), name ='token_refresh'), 
+    path('graphql/', GraphQLView.as_view(graphiql=True)),   
 ]
