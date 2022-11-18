@@ -15,6 +15,7 @@ import ProjectUser from './components/Userprojects';
 import ProjectDetail from './components/ProjectDetail';
 import LoginForm from './components/Auth';
 import Cookies from 'universal-cookie';
+import UserForm from './components/UserForm';
 
 class App extends React.Component {
   constructor (props){
@@ -28,8 +29,45 @@ class App extends React.Component {
       'refreshToken': '',
       'token': '',
       'loggedAs': '',
+      'baseUrl': 'http://localhost:8001/api',
     };
   }
+
+  
+// *********************CRUD DATA***********************************
+
+  deleteUser (id) {
+    const headers = this.getHeaders();          
+    axios.delete(`${this.state.baseUrl}/users/${id}`, {headers})
+        .then(response => {         
+          this.state.users.results = this.state.users.results.filter((item) => item.id !== id); 
+          this.setState({});         
+        })
+        .catch(error => console.log(error))
+  }
+
+  createUser (userName, firstName, lastName, email) {
+    const headers = this.getHeaders();
+    const data = {
+      userName: userName[0],
+      firstName: firstName[0],
+      lastName: lastName[0],
+      email: email[0]
+    };
+
+    console.log(data);
+
+    axios.post(`${this.state.baseUrl}/users/`, data, {headers})
+        .then(response => {
+          const newUser = response.data;
+          this.state.users.results.push(newUser);
+          this.setState({});
+        })
+        .catch(error => console.log(error))
+  }
+
+
+// ********************Authentication*************************************
 
   logout () {
     this.setToken('');
@@ -65,16 +103,19 @@ class App extends React.Component {
     const token = cookies.get('accessToken');
     const user = cookies.get('loggedAs');
     // const token = cookies.get('token');    
-    this.setState({
-      'accessToken': token['access'],
-      'refreshToken': token['refresh'],
-      'loggedAs': user,
-      // 'token': token
-    }, () => this.loadData());
+    // if (token['access']) {
+      this.setState({
+        'accessToken': token['access'],
+        'refreshToken': token['refresh'],
+        'loggedAs': user,
+        // 'token': token
+      }, () => this.loadData());
+    // }
+    
   }
 
   getToken (username,password) {
-    const baseUrl = 'http://localhost:8000/api';
+    const baseUrl = this.state.baseUrl;
     const data = {username: username, password: password};    
     axios.post(baseUrl+'/token/', data).then(response => {
     // axios.post(baseUrl+'-token-auth/', data).then(response => { 
@@ -98,7 +139,7 @@ class App extends React.Component {
   }
 
   loadData () {
-    const baseUrl = 'http://localhost:8000/api';
+    const baseUrl = this.state.baseUrl;
     const headers = this.getHeaders();
     const footer = [
       'This project was built with engines of Django 3.2.8 on backend, React JS 18.2.0 on frontend and PostgreSQL as a DB. OS Ubuntu server 22.04.',
@@ -112,9 +153,10 @@ class App extends React.Component {
     axios.get(baseUrl+'/users/',{headers}).then(response => {
       this.setState({
         'users': response.data,        
-      });      
+      });
+      // console.log(this.state.users.results)      
     }).catch(error => console.log(error));    
-    console.log(headers)
+    // console.log(this.state.users)
     axios.get(baseUrl+'/projects/', {headers}).then(response => {
       this.setState({
         'projects': response.data,        
@@ -128,7 +170,7 @@ class App extends React.Component {
     }).catch(error => console.log(error));
   };
   
-
+// *******************************************************************
   componentDidMount() {   
     this.getTokenStorage();
   }
@@ -159,8 +201,12 @@ class App extends React.Component {
             <Route exact path="/" element={<Navigate to="/users"/>}/>
             <Route exact path="/login" element={<LoginForm getToken={(username, password) => 
               this.getToken(username, password)}/>}/>
+            <Route exact path="/users/create" element={<UserForm 
+              createUser={(userName, firstName, lastname, email) => 
+              this.createUser(userName, firstName, lastname, email)}/>}/>
             <Route exact path="/users">
-              <Route index element={<UserList  users={this.state.users}/>}/>
+              <Route index element={<UserList  users={this.state.users} 
+                                              deleteUser={id => this.deleteUser(id)}/>}/>
               <Route path=":userId" element={<ProjectUser projects={this.state.projects}/>}/>
             </Route>        
             <Route exact path="/projects">

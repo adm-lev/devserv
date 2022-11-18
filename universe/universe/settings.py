@@ -66,9 +66,7 @@ ALLOWED_HOSTS = ['*']
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
-    'http://185.208.207.158',
-    
-    
+    'http://185.208.207.158',    
 ]
 
 CORS_ORIGIN_WHITELIST = ( 'http://localhost:3000', 'http://185.208.207.158')
@@ -107,7 +105,7 @@ ROOT_URLCONF = 'universe.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend/build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -175,7 +173,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+# STATIC_URL = '/frontend/build/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'frontend/build/static/')
+# STATICFILE_DIRS = (BASE_DIR/'frontend/build/static',)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'frontend/build/static/'),
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

@@ -21,8 +21,8 @@ const ProjectList = ({projects}) => {
         <div className="project-div">
             <ul className="project-list">
                 <li>Project name</li>
-                <li>User name</li>
-                <li>Project URL</li>                               
+                {/* <li>User name</li>
+                <li>Project URL</li>                                */}
             </ul>
             {clear_projects.map((project_) => <ProjectItem project={project_}/>)}
         </div>    

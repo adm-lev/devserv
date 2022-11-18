@@ -47,7 +47,7 @@ class TodoCustomViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins
     serializer_class = TodoModelSerialazer
     filterset_class = TodoFilter
     pagination_class = TodoLimitOffsetPagination
-    # permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def destroy(self, request, pk):
         instance = get_object_or_404(Todo, pk=pk)            

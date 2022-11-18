@@ -11,11 +11,11 @@ const ProjectDetail = ({projects}) => {
     const {projectId} = useParams(); 
     const project = clear_projects.filter((item) => parseInt(item.id) === parseInt(projectId))[0];    
     return (
-        <ul className="project-item">
-            <li>{project.id}</li>
-            <li>{project.name}</li>
-            <li>{project.users}</li>
-            <li>{project.projectUrl}</li>              
+        <ul className="project-det-item">
+            <li>ID: {project.id}</li>
+            <li>Name: {project.name}</li>
+            <li>Users: {project.users}</li>
+            <li>URL: {project.projectUrl}</li>              
         </ul>
     )
 };
