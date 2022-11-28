@@ -1,0 +1,48 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres:13.1
+    privileged: true
+    ports:
+        - 5432:5432
+    environment:
+      POSTGRES_USER: webadmin
+      POSTGRES_PASSWORD: NewEntry1
+      POSTGRES_DB: universe
+  # adminer:
+  #  image: adminer:4.7.8-standalone
+  #  restart: always
+  #  ports:
+  #    - 8090:8090
+  #  depends_on:
+  #    - db
+  backend:
+    build:
+      context: .
+ #   ports:
+ #     - 8080:8080
+    expose:
+      - 8080
+    command: bash -c "
+      ./wait-for-postgres.sh db
+      && python manage.py migrate
+      && gunicorn universe.wsgi -b 0.0.0.0:8080
+      "
+    depends_on:
+      - db
+  nginx:
+    build: ./nginx
+    ports:
+      - 8000:80    
+    depends_on:
+      - backend
+  frontend:
+    build: ./frontend
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /etc/letsencrypt/:/etc/letsencrypt/
+    depends_on:
+      - nginx

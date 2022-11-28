@@ -29,7 +29,9 @@ class App extends React.Component {
       'refreshToken': '',
       'token': '',
       'loggedAs': '',
-      'baseUrl': 'http://localhost:8001/api',
+      // 'baseUrl': 'http://localhost:8000/api',
+      'baseUrl': 'http://185.208.207.158:8000/api',
+      // 'baseUrl': 'https://devlev22.de:8043/api',
     };
   }
 
@@ -80,7 +82,9 @@ class App extends React.Component {
   }
 
   isAuth () {
+    console.log(`access token contents: ${this.state.accessToken}`);
     return !!this.state.accessToken;    
+    
     // return !!this.state.token;
     
   }
@@ -104,14 +108,22 @@ class App extends React.Component {
     const user = cookies.get('loggedAs');
     // const token = cookies.get('token');    
     // if (token['access']) {
+    if (token) {
+      console.log(`token: ${!!token}`);
+      console.log(token);
+      console.log(this.isAuth());
       this.setState({
-        'accessToken': token['access'],
-        'refreshToken': token['refresh'],
+        // 'accessToken': token['access'],
+        // 'accessToken': token,
+        
+        // 'refreshToken': token['refresh'],
         'loggedAs': user,
         // 'token': token
-      }, () => this.loadData());
-    // }
-    
+      }, () => this.loadData());      
+    // } else {
+    //   this.loadData();
+    }
+    console.log(`user is: ${user}`);
   }
 
   getToken (username,password) {
@@ -142,7 +154,7 @@ class App extends React.Component {
     const baseUrl = this.state.baseUrl;
     const headers = this.getHeaders();
     const footer = [
-      'This project was built with engines of Django 3.2.8 on backend, React JS 18.2.0 on frontend and PostgreSQL as a DB. OS Ubuntu server 22.04.',
+      'This project was built wia Docker Compose with engines of Django 3.2.8 on backend, React JS 18.2.0 on frontend and PostgreSQL as a DB. OS Ubuntu server 22.04.',
       'Made by Eugene Lavrenko'
     ];
 

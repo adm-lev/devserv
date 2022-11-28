@@ -64,12 +64,19 @@ LOGGING = {
 ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'http://185.208.207.158',    
+    # 'http://localhost:3000',
+    # 'http://127.0.0.1:3000',
+    'http://185.208.207.158', 
+    'http://devlev22.de',
+    'https://devlev22.de',  
+    'https://185.208.207.158', 
+    # 'http://0.0.0.0:80',
+    # 'http://0.0.0.0:443',
 ]
 
-CORS_ORIGIN_WHITELIST = ( 'http://localhost:3000', 'http://185.208.207.158')
+# CORS_ORIGIN_WHITELIST = ( 'http://localhost:3000', 'http://185.208.207.158')
+
+# CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 
@@ -87,6 +94,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_simplejwt.token_blacklist',
     'graphene_django',
+    'universe',
 ]
 
 MIDDLEWARE = [
@@ -130,8 +138,8 @@ DATABASES = {
         'NAME': 'universe',
         'USER': 'webadmin',
         'PASSWORD': DB_PASS,
-        'HOST': 'localhost',
-        'PORT': '',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
